@@ -1,0 +1,15 @@
+{
+  "name": "diegoavelar/laravocker",
+  "description": "Easy management for using Docker and Laravel",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Diego Avelar",
+      "email": "diego.avelar@doc88.com.br"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "symfony/yaml": "^5.0@dev"
+  }
+}
