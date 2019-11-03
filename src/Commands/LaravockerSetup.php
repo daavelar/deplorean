@@ -38,6 +38,8 @@ class LaravockerSetup extends Command
      */
     public function handle()
     {
+        $basePath = __DIR__ . '/src/';
+
         $dockerComposeContent = [
             'version'  => config('laravocker::version'),
             'networks' => ['www' => []],
@@ -49,7 +51,7 @@ class LaravockerSetup extends Command
                         'context' => './php-fpm',
                     ],
                     'volumes'  => [
-                        base_path('.') . ':/var/www/html',
+                        "$basePath:/var/www/html",
                     ],
                     'networks' => ['www'],
                 ],
@@ -62,7 +64,7 @@ class LaravockerSetup extends Command
                         '8000:80',
                     ],
                     'volumes'        => [
-                        base_path('.') . ':/usr/share/nginx/html',
+                        "$basePath:/usr/share/nginx/html",
                     ],
                     'networks'       => ['www'],
                 ],
@@ -101,7 +103,6 @@ class LaravockerSetup extends Command
                 'build'          => [
                     'context' => './redis',
                 ],
-                'container_name' => 'laravocker_redis',
                 'networks'       => ['www'],
             ];
 
@@ -119,7 +120,6 @@ class LaravockerSetup extends Command
                 'build'          => [
                     'context' => './cron',
                 ],
-                'container_name' => 'laravocker_cron',
                 'networks'       => ['www'],
             ];
 
@@ -133,7 +133,7 @@ class LaravockerSetup extends Command
                     'context' => './horizon',
                 ],
                 'volumes'        => [
-                    base_path('.') . ':/var/www/html',
+                    "$basePath:/var/www/html",
                 ],
                 'networks'       => ['www'],
             ];
