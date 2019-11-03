@@ -1,2 +1,2 @@
 # laravocker
-Package to manage local environment in Laravel
+Package for management your local environment with Laravel and Docker
