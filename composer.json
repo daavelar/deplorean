@@ -8,7 +8,6 @@
       "email": "diego.avelar@doc88.com.br"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "symfony/yaml": "^5.0@dev"
   }
