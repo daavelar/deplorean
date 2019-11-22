@@ -3,6 +3,8 @@
 namespace Laravocker\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravocker\Commands\LaravockerSetup;
+use Laravocker\Commands\LaravockerUp;
 
 class LaravockerServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,7 @@ class LaravockerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        dump('Resistrando');
     }
 
     /**
@@ -26,5 +28,12 @@ class LaravockerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/Config/laravocker.php' => config_path('laravocker.php'),
         ]);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                LaravockerSetup::class,
+                LaravockerUp::class,
+            ]);
+        }
     }
 }
