@@ -1,12 +1,12 @@
 <?php
 
-namespace Laravocker\Providers;
+namespace Deplrean\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laravocker\Commands\LaravockerSetup;
-use Laravocker\Commands\LaravockerUp;
+use Deplorean\Commands\DeploreanSetup;
+use Deplorean\Commands\DeploreanUp;
 
-class LaravockerServiceProvider extends ServiceProvider
+class DeploreanServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -26,13 +26,13 @@ class LaravockerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/Config/laravocker.php' => config_path('laravocker.php'),
+            __DIR__ . '/Config/deplorean.php' => config_path('deplorean.php'),
         ]);
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                LaravockerSetup::class,
-                LaravockerUp::class,
+                DeploreanSetup::class,
+                DeploreanUp::class,
             ]);
         }
     }

@@ -1,17 +1,17 @@
 <?php
 
-namespace Laravocker\Commands;
+namespace Deplorean\Commands;
 
 use Illuminate\Console\Command;
 
-class LaravockerUp extends Command
+class DeploreanUp extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'laravocker:up';
+    protected $signature = 'deplorean:up';
 
     /**
      * The console command description.
@@ -38,7 +38,7 @@ class LaravockerUp extends Command
     public function handle()
     {
         if(!file_exists(base_path('docker/docker-compose.yml'))) {
-            $this->error('Run php artisan laravocker:setup to create the yml file');
+            $this->error('Run php artisan deplorean:start to create the yml file');
 
             exit;
         }

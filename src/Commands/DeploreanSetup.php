@@ -1,25 +1,25 @@
 <?php
 
-namespace Laravocker\Commands;
+namespace deplorean\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Yaml\Yaml;
 
-class LaravockerSetup extends Command
+class DeploreanSetup extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'laravocker:setup {--up}';
+    protected $signature = 'deplorean:setup';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Initialize Laravock';
+    protected $description = 'Initialize Deplorean';
 
     /**
      * Create a new command instance.
@@ -41,11 +41,11 @@ class LaravockerSetup extends Command
         $basePath = __DIR__ . '/src/';
 
         $dockerComposeContent = [
-            'version'  => config('laravocker::version'),
+            'version'  => config('deplorean::version'),
             'networks' => ['www' => []],
             'services' => [
                 'php_fpm' => [
-                    'container_name' => 'laravocker_php_fpm',
+                    'container_name' => 'deplorean_php_fpm',
 
                     'build'    => [
                         'context' => './php-fpm',
@@ -56,7 +56,7 @@ class LaravockerSetup extends Command
                     'networks' => ['www'],
                 ],
                 'nginx'   => [
-                    'container_name' => 'laravocker_nginx',
+                    'container_name' => 'deplorean_nginx',
                     'build'          => [
                         'context' => './nginx',
                     ],
@@ -71,20 +71,20 @@ class LaravockerSetup extends Command
             ],
         ];
 
-        if (config('laravocker::mysql.enabled')) {
+        if (config('deplorean::mysql.enabled')) {
             $mysqlParams = [
                 'build'          => [
                     'context' => './mysql',
                 ],
-                'container_name' => 'laravocker_mysql',
+                'container_name' => 'deplorean_mysql',
                 'volumes'        => [
-                    '~/.laravocker/' . strtolower(config('app.name')) . '/mysql:/var/lib/mysql',
+                    '~/.deplorean/' . strtolower(config('app.name')) . '/mysql:/var/lib/mysql',
                 ],
                 'environment'    => [
-                    'MYSQL_ROOT_PASSWORD' => config('laravocker::mysql.rootpass'),
-                    'MYSQL_DATABASE'      => config('laravocker::mysql.database'),
-                    'MYSQL_USER'          => config('laravocker::mysql.username'),
-                    'MYSQL_PASSWORD'      => config('laravocker::mysql.password'),
+                    'MYSQL_ROOT_PASSWORD' => config('deplorean::mysql.rootpass'),
+                    'MYSQL_DATABASE'      => config('deplorean::mysql.database'),
+                    'MYSQL_USER'          => config('deplorean::mysql.username'),
+                    'MYSQL_PASSWORD'      => config('deplorean::mysql.password'),
                 ],
                 'networks'       => ['www'],
             ];
@@ -92,14 +92,14 @@ class LaravockerSetup extends Command
             $dockerComposeContent['services']['mysql'] = $mysqlParams;
 
             $this->line('Add these lines to your .env');
-            $this->line('DB_DATABASE=' . config('laravocker::mysql.database'));
-            $this->line('DB_USERNAME=' . config('laravocker::mysql.username'));
-            $this->line('DB_PASSWORD=' . config('laravocker::mysql.password'));
+            $this->line('DB_DATABASE=' . config('deplorean::mysql.database'));
+            $this->line('DB_USERNAME=' . config('deplorean::mysql.username'));
+            $this->line('DB_PASSWORD=' . config('deplorean::mysql.password'));
         }
 
-        if (config('laravocker::redis.enabled')) {
+        if (config('deplorean::redis.enabled')) {
             $redisParams = [
-                'container_name' => 'laravocker_redis',
+                'container_name' => 'deplorean_redis',
                 'build'          => [
                     'context' => './redis',
                 ],
@@ -114,9 +114,9 @@ class LaravockerSetup extends Command
             $this->line('REDIS_PASSWORD=');
         }
 
-        if (config('laravocker::cron.enabled')) {
+        if (config('deplorean::cron.enabled')) {
             $cronParams = [
-                'container_name' => 'laravocker_cron',
+                'container_name' => 'deplorean_cron',
                 'build'          => [
                     'context' => './cron',
                 ],
@@ -126,9 +126,9 @@ class LaravockerSetup extends Command
             $dockerComposeContent['services']['cron'] = $cronParams;
         }
 
-        if (config('laravocker::horizon.enabled')) {
+        if (config('deplorean::horizon.enabled')) {
             $horizonParams = [
-                'container_name' => 'laravocker_horizon',
+                'container_name' => 'deplorean_horizon',
                 'build'          => [
                     'context' => './horizon',
                 ],
@@ -149,10 +149,10 @@ class LaravockerSetup extends Command
         file_put_contents(base_path('docker/docker-compose.yml'), Yaml::dump($dockerComposeContent));
 
         if ($this->option('up')) {
-            $this->call('laravocker:up');
+            $this->call('deplorean:up');
         }
         else {
-            $this->info('Your docker-compose.yml was created, run php artisan laravocker:up to start your containers');
+            $this->info('Your docker-compose.yml was created, run php artisan deplorean:up to start your containers');
         }
 
     }

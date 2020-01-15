@@ -9,10 +9,10 @@ return [
     'mysql'   => [
         'enabled' => true,
         'params'  => [
-            'rootpass' => 'laravocker',
-            'database' => 'laravocker',
-            'username' => 'laravocker',
-            'password' => 'laravocker',
+            'rootpass' => 'deplorean',
+            'database' => 'deplorean',
+            'username' => 'deplorean',
+            'password' => 'deplorean',
         ],
     ],
     'horizon' => [
